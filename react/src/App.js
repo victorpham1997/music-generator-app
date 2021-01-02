@@ -15,6 +15,7 @@ let interval;
 function App() {
 	let SampleChords = data.sampleChords
 	const [recording, setRecording] = useState(false);
+	const [playing, setPlaying] = useState(false);
 	const [initializingGeneration, setInitializingGeneration] = useState(false);
 	const [isGenerating, setIsGenerating] = useState(false);
 	const [loadingText, setLoadingText] = useState('WAKING A.I. UP...\n');
@@ -49,6 +50,10 @@ function App() {
 							setNotes(notes);
 						}
 						return recording;
+					})
+					//retrieve playing state
+					setPlaying(playing=>{
+						return playing;
 					})
 				}, 50);
 			}
@@ -115,7 +120,6 @@ function App() {
 	const MAX_MIDI = 88
 	const NOTE_HEIGHT = 8
 	const DURATION_FACTOR = 100
-
 	async function onChordDown(chord) {
 		if (chord != currentChord) {
 			await playerTwo.triggerChordAttack(chord.array);
@@ -145,8 +149,29 @@ function App() {
 		<div className="App">
 			<div style={{position: 'absolute', top: 10, right: 20, color: 'tomato'}}>{recorder.windowLength - recorder.slices.length}</div>
 			<div className="App-header">
-				<div style={{ width: "20%", textTransform: "uppercase" }}>2.5K only<br></br> music generation <br></br> project</div>
+				<div style={{ width: "20%", textTransform: "uppercase", fontSize: "2vw"}}>jazz generation project </div>
 				<PlayBar
+					onClickPlayPause={async() =>{
+						if(playing==false){
+							if(notes.length == 0) {
+								let midiFile = await player.midiFileFromUrl('/ABeautifulFriendship.mid');
+								let notes = player.notesFromMidiFile(midiFile);
+								player.addNotes(notes);
+								setNotes(notes);
+							}
+
+							if(Tone.context.state == 'suspended') {
+								Tone.start()
+							}
+
+							Tone.Transport.start()
+							setPlaying(true)
+						}else{
+							player.pausePlayback()
+							setPlaying(false)
+						}
+
+					}}
 					onClickPlay={async () => {
 						if(notes.length == 0) {
 							let midiFile = await player.midiFileFromUrl('/ABeautifulFriendship.mid');
@@ -188,6 +213,7 @@ function App() {
 						Tone.Transport.seconds = 0
 					}}
 					recordingState = {recording}
+					playingState = {playing}
 				/>
 				{/* <div style={{ width: "20%" }}></div> */}
 				<Insturction></Insturction>

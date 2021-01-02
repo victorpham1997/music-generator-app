@@ -22,10 +22,11 @@
   justify-content: space-between;
   flex-direction: row;
   font-size: 1.75vw;
-  color: #7Ec291;
+  color: #0C1115;
   font-weight: 700;
-  padding: 4vw 4vw;
+  padding: 2vw 4vw;
   align-items: center;
+  background: #ECAF44;
 }
 
 .App-link {
@@ -42,7 +43,7 @@
 }
 
 .App-Playbar{
-  background-color: #7Ec291;
+  /*background-color: #7Ec291;*/
   padding: 1.25vw;
   border-radius: 60px;
   display: flex;
@@ -102,7 +103,7 @@
 
 .play-button{
   border: 0;
-  background-color: transparent;
+  background-color: #0C1115;
 }
 
 .modal-instructions{
@@ -124,7 +125,9 @@
   background-color: azure;
   color: #262127;
   font-weight: 700;
-  text-align: center;
+  /*text-align: center;*/
   font-size: 1.75vw;
-  padding: 1.25vw
+  padding: 20vw; 
+  margin-left: 60% !important; 
 }
+

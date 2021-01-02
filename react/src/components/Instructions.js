@@ -1,4 +1,5 @@
 import Modal from '@material-ui/core/Modal';
+import Info from '@material-ui/icons/Info';
 import { useEffect, useState } from 'react'
 import '../App.css';
 import { Button, Icon, IconButton } from '@material-ui/core';
@@ -88,8 +89,10 @@ export default function Instruction(){
     }
 
     return(
-        <div>
-            <StyledButton type="button" onClick={handleOpenModal} className="instruction-button">Instructions</StyledButton>
+        <div style={{width:"20%"}}>
+            <IconButton type="button" onClick={handleOpenModal} className="instruction-button">
+                <Info style={{width: '5vw', height: '5vw', fill: '#0C1115'}}/>
+            </IconButton>
             <Modal
                   open={open}
                   onClose={handleCloseModal}
