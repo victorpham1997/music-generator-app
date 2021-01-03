@@ -61,7 +61,6 @@ class Model:
         #     while len(token_sequence) < chunk_duration:
         #         token_sequence.insert(0, self.combi_to_int[tuple([])])
 
-        # tokens_generated = []
 
         # while len(tokens_generated) <= num_note_to_gen:
         #     x = token_sequence[-chunk_duration:]
@@ -73,7 +72,9 @@ class Model:
         
         #     print(f"generated {len(tokens_generated)} notes")
         # return tokens_generated
-        while num_tokens_generated <= num_note_to_gen:
+        tokens_generated = []
+
+        while len(tokens_generated) <= num_note_to_gen:
             x = token_sequence[-chunk_duration:]
             pad_len = chunk_duration - len(x)
             sample_index = -1
@@ -81,14 +82,13 @@ class Model:
                 print(f"sequence has length {len(token_sequence)}. adding {pad_len} padding...")
                 x = token_sequence + [0] * pad_len
                 sample_index = len(token_sequence) - 1
-            
             x = np.array([x])
-            y, _ = model.predict(x)
+            y, _ = self.model.predict(x)
             sample_token = helpers.sample_from(y[0][sample_index], 10)
-            tokens_generated.append(sample_token)
-            start_tokens.append(sample_token)
-            num_tokens_generated = len(tokens_generated)
-            print(f"generated {num_tokens_generated} notes")
+            tokens_generated.append(int(sample_token))
+            token_sequence.append(sample_token)
+
+            print(f"generated {len(tokens_generated)} notes")
         return tokens_generated
 
     def combiSequenceToMidiBytes(self, combi_sequence):

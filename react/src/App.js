@@ -125,7 +125,7 @@ function App() {
 			await playerTwo.triggerChordAttack(chord.array);
 			setCurrentChord(chord);
 		}
-		recorder.onChordPressed(chord.key);
+		recorder.onChordPressed(chord);
 		console.log(chord.name)
 		document.getElementById(chord.name).classList.add("active");
 	}
