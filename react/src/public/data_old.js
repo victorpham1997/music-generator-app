@@ -1,47 +1,44 @@
 let sampleChords =  [{
-    name:"G#6",
+    name:"Cmaj7",
     key:"1",
-    array: ["F3","G#3","C4","D#4"]},
+    array: ["C4","E4","G4","B4"]},
     
-    {name:"F6",
+    {name:"Dm7",
     key:"2",
-    array:["D3","A3","C4", "F5"]}, //
+    array:["D4","F4","A4", "C5"]}, //
     
-    {name:"C6/11",
+    {name:"C",
     key:"3",
-    array:["F3","A3","C4", "E4"]},
+    array:["C4","E4","G4"]},
 
-    {name:"Am11",
+    {name:"G",
     key:"4",
-    array:["A3","D4","G4", "C4"]},
+    array:["G4","B4","D5"]},
     
-    {name:"Gm11",
+    {name:"Am7",
     key:"5",
-    array:["G3","C4","F4", 'A#4']},
+    array:["A3","C4","E4", 'G4']},
 
-    {name:"F",
+    {name:"Em",
     key:"6",
-    array:["F3","C4","F4", "A4"]},
+    array:["E4","G4","B4"]},
     
-    {name:"Esus(b2)",
+    {name:"Asus7",
     key:"7",
-    array: ["F3","B3","E4"]},
+    array: ["A4","D5","E5","G5"]},
 
-    {name:"C(b5)",
+    {name:"B",
     key:"8",
-    array:["F#3","C4","E4"]},
+    array:["B4","D#5","F#5"]},
 
-    {name:"Gsus(b2)",
+    {name:"B",
     key:"9",
-    array:["G#3","D4","G4"]},
+    array:["B4","D#5","F#5"]},
 
-    {name:"C#(b5)",
+    {name:"B",
     key:"0",
-    array:["G3","C#4","F4"]},
+    array:["B4","D#5","F#5"]},
 
-    {name:"G#3",
-    key:"q",
-    array:["G#3"]},
     {name:"A3",
     key:"a",
     array:["A3"]},
@@ -96,9 +93,6 @@ let sampleChords =  [{
     {name:"D5",
     key:"'",
     array:["D5"]},
-    {name:"D#5",
-    key:"]",
-    array:["D#5"]},
   ]
 
 module.exports = {sampleChords}

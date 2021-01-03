@@ -6,7 +6,7 @@ export default class Recorder
         this.timeSlice = 1/(this.bpm*4/60); //time slice - time of 16th notes
         this.windowLength = 25; //number of time slices
         this.slices = [];
-        this.currentChord = null;
+        this.currentChord = [];
 
         //callbacks 
         this.onFinishRecording = null;
@@ -14,16 +14,20 @@ export default class Recorder
 
     reset() {
         this.slices = [];
-        this.currentChord = null;
+        this.currentChord = [];
     }
     
     onChordPressed(chord) {
-        this.currentChord = chord;
+        if(!(this.currentChord.includes(chord))){
+            this.currentChord.push(chord);
+        }
     }
 
     onChordReleased(chord) {
-        if(this.currentChord == chord) {
-            this.currentChord = null;
+        if(this.currentChord.includes(chord)) {
+            const idx = this.currentChord.indexOf(chord);
+            this.currentChord.splice(idx, 1);
+            console.log("relsesed");
         }
     }
 
@@ -66,12 +70,23 @@ export default class Recorder
                     let midi = noteStringToMidi(note)
                     tuple.push(midi)
                 }
-
-                tuples.push(tuple)
+                tuples.push(tuple.sort())
             }
 
             this.onFinishRecording(tuples);
         }
+    }
+    combineChord(currentChord){
+        var out_array = [];
+        for(let chord of currentChord){
+            out_array = out_array.concat(chord.array);
+        }
+        var chord_object = {
+          name: "Chord",
+          key: "Keys",
+          array: out_array,
+        };
+        return chord_object;
     }
 
     captureSlice() {
@@ -82,9 +97,7 @@ export default class Recorder
         if(this.slices.length > this.windowLength) {
             this.finishRecording();
         }
-
-        // console.log('recording slice: ', this.currentChord)
-        this.slices.push(this.currentChord);
+        this.slices.push(this.combineChord(JSON.parse(JSON.stringify(this.currentChord))));
     }
 
     getVisualNotes() {

@@ -125,7 +125,9 @@ function App() {
 			await playerTwo.triggerChordAttack(chord.array);
 			setCurrentChord(chord);
 		}
-		recorder.onChordPressed(chord);
+		recorder.onChordPressed(chord.key);
+		console.log(chord.name)
+		document.getElementById(chord.name).classList.add("active");
 	}
 	
 	async function onChordUp(chord) {
@@ -134,8 +136,9 @@ function App() {
 			setCurrentChord(null)
 		}
 		await playerTwo.triggerChordRelease(chord.array);
-		
 		recorder.onChordReleased(chord);
+		document.getElementById(chord.name).classList.remove("active");
+
 	}
 
 	for (let chord of data.sampleChords) {
@@ -251,7 +254,7 @@ function App() {
 					<div className="App-preset-container">
 						{presentChords.slice(0,5).map((chord) => {
 							return <button
-								className="App-preset"
+								class="App-preset"
 								id={`${chord.name}`}
 								key={`${chord.key}`}
 								name={`${chord.name}`}
@@ -269,7 +272,7 @@ function App() {
 						{presentChords.slice(5,10).map((chord) => {
 							return <button
 								className="App-preset"
-								id={`${chord.key}`}
+								id={`${chord.name}`}
 								key={`${chord.key}`}
 								name={`${chord.name}`}
 								onPointerUp={(e) => onChordUp(chord)}
@@ -288,26 +291,26 @@ function App() {
 						<li class="white b"></li>
 						<li class="black as"></li>
 						<li class="white a"></li>
-						<li class="black gs"></li>
-						<li class="white g">a</li>
-						<li class="black fs">w</li>
-						<li class="white f">s</li>
-						<li class="white e">d</li>
-						<li class="black ds">r</li>
-						<li class="white d">f</li>
-						<li class="black cs">t</li>
-						<li class="white c">g</li>
-						<li class="white b">h</li>
-						<li class="black as">u</li>
-						<li class="white a">j</li>
-						<li class="black gs">i</li>
-						<li class="white g">k</li>
-						<li class="black fs">o</li>
-						<li class="white f">l</li>
-						<li class="white e">;</li>
-						<li class="black ds">[</li>
-						<li class="white d">'</li>
-						<li class="black cs"></li>
+						<li class="black gs" id="G#3">q</li>
+						<li class="white g" id="A3">a</li>
+						<li class="black fs" id="A#3">w</li>
+						<li class="white f" id="B3">s</li>
+						<li class="white e" id="C4">d</li>
+						<li class="black ds" id="C#4">r</li>
+						<li class="white d" id="D4">f</li>
+						<li class="black cs" id="D#4">t</li>
+						<li class="white c" id="E4">g</li>
+						<li class="white b " id="F4">h</li>
+						<li class="black as" id="F#4">u</li>
+						<li class="white a" id="G4">j</li>
+						<li class="black gs" id="G#4">i</li>
+						<li class="white g" id="A4">k</li>
+						<li class="black fs" id="A#4">o</li>
+						<li class="white f" id="B4">l</li>
+						<li class="white e" id="C5">;</li>
+						<li class="black ds" id="C#5">[</li>
+						<li class="white d" id="D5">'</li>
+						<li class="black cs" id="D#5">]</li>
 						<li class="white c"></li>
 					</ul>
 
