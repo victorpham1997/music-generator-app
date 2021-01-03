@@ -17,6 +17,8 @@
   }
 }
 
+
+
 .App-header {
   display: flex;
   justify-content: space-between;
@@ -24,10 +26,13 @@
   font-size: 1.75vw;
   color: #0C1115;
   font-weight: 700;
-  padding: 2vw 4vw;
+  padding: 1.25vw 4vw;
   align-items: center;
   background: #ECAF44;
+  border-bottom: 1vw solid #0C1115;
+  position: relative;
 }
+
 
 .App-link {
   color: #61dafb;
@@ -43,13 +48,40 @@
 }
 
 .App-Playbar{
-  /*background-color: #7Ec291;*/
-  padding: 1.25vw;
-  border-radius: 60px;
+  width: 30%;
+  height: 6%;
+  background-color: #0C1115;
+  padding: 1.5%;
+  padding-bottom: 0.5%;
+  border-top-left-radius: 40px;
+  border-top-right-radius: 40px;
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  
+  position: absolute;
+  bottom: -3%;
+  justify-content: center;
+  margin:auto;
+  left: 0;
+  right:0;
+}
+
+.App-Setting{
+  font-size: 1.5vw;
+  display:flex;
+  /*width: 110%;*/
+}
+.column{
+  padding: 0vw 2.5vw;
+}
+
+.dropdown-option{
+  width: 9vw;
+  font-size: 1.25vw;
+  border-radius: 25px;
+  background: white;
+  border: white;
+  text-align: center;
+  color: #0C1115;
 }
 
 .App-piano{
@@ -57,7 +89,7 @@
   width: 100%;
   overflow-x: hidden;
   overflow-y: hidden;
-  height: 45%;
+  height: 50%;
   margin-top: 2vw;
 
 }
@@ -65,15 +97,19 @@
 .App-preset-container{
   display: flex;
   justify-content: space-around;
-  padding: 1vw 1vw;
-  margin-top: 1vw;
-  width: 95%;
+  /*padding: 1vw 1vw;*/
+  /*margin-top: 1vw;*/
+  /*margin-left: 1%;*/
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
 }
 .App-preset{
-  border: 0.5vw solid #7Ec291;
-  border-radius: 50%;
-  width:8vw;
-  height: 8vw;
+  border: 0.5vw solid #ECAF44;
+  border-radius: 5%;
+  width:6vw;
+  height: 6vw;
   background-color: white;
   text-align: center;
   align-items: center;
@@ -81,6 +117,26 @@
   outline:none;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.App-preset:active{
+  background: red;
+}
+
+.overlay {
+  /*visibility: hidden;*/
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display:grid;
+  z-index: 1001;
+  font-size:10vw;
+  color: white;
+  text-align: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.7);
+
 }
 
 .material-icons {
@@ -104,6 +160,7 @@
 .play-button{
   border: 0;
   background-color: #0C1115;
+  padding: 5% !important;
 }
 
 .modal-instructions{
@@ -131,3 +188,73 @@
   margin-left: 60% !important; 
 }
 
+
+/*CSS for piano*/
+
+ul {
+  height:100%;
+  width:100%;
+  position:relative;
+  margin:0;
+  padding: 0;
+  overflow:hidden;
+}
+
+li {
+  margin:0;
+  padding:0;
+  list-style:none;
+  position:relative;
+  float:left
+}
+
+ul .white {
+  height:100%;
+  width:4vw;
+  z-index:1;
+  font-weight: 700;
+  line-height: 15vw;
+  text-align: center;
+  border-left:1px solid #bbb;
+  border-bottom:1px solid #bbb;
+  border-radius:0 0 5px 5px;
+  box-shadow:-1px 0 0 rgba(255,255,255,0.8) inset,0 0 5px #ccc inset,0 0 3px rgba(0,0,0,0.2);
+  background:linear-gradient(to bottom,#eee 0%,#fff 100%)
+}
+
+ul .white:active{
+  /*box-shadow:2px 0 3px rgba(0,0,0,0.1) inset,-5px 5px 20px rgba(0,0,0,0.2) inset,0 0 3px rgba(0,0,0,0.2);*/
+  background:linear-gradient(to bottom,#fff 0%,#e9e9e9 100%)
+}
+
+.black {
+  height:45%;
+  width:2em;
+  margin:0 0 0 -1em;
+  z-index:2;
+  font-weight: 700;
+  line-height: 6vw;
+  color: white;
+  text-align: center;
+  border:1px solid #000;
+  border-radius:0 0 3px 3px;
+  box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -5px 2px 3px rgba(0,0,0,0.6) inset,0 2px 4px rgba(0,0,0,0.5);
+  background:linear-gradient(45deg,#222 0%,#555 100%)
+}
+
+.black:active {
+  box-shadow:-1px -1px 2px rgba(255,255,255,0.2) inset,0 -2px 2px 3px rgba(0,0,0,0.6) inset,0 1px 2px rgba(0,0,0,0.5);
+  background:linear-gradient(to right,#444 0%,#222 100%)
+}
+
+.a,.g,.f,.d,.c {
+  margin:0 0 0 -1em
+}
+
+ul li:first-child {
+  border-radius:5px 0 5px 5px
+}
+
+ul li:last-child {
+  border-radius:0 5px 5px 5px
+}

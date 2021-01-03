@@ -4,7 +4,7 @@ export default class Recorder
     constructor() {
         this.bpm = bpm;
         this.timeSlice = 1/(this.bpm*4/60); //time slice - time of 16th notes
-        this.windowLength = 20; //number of time slices
+        this.windowLength = 25; //number of time slices
         this.slices = [];
         this.currentChord = null;
 
@@ -27,8 +27,9 @@ export default class Recorder
         }
     }
 
-    startRecording() {
+    startRecording(duration) {
         console.log('started recording!')
+        this.windowLength = duration/(1/8);
         this.recording = true;
 
         //start slice tracking clock

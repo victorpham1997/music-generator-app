@@ -61,13 +61,13 @@ function App() {
 
 			recorder.onFinishRecording = async (result)=>{
 				const time_interval = 1250
-				let timeout = setTimeout(() => {
+				let timeout = sleep(() => {
 					setLoadingText(text => text+'BRUSHING TEETH...\n')
-					timeout = setTimeout(() => {
+					timeout = sleep(() => {
 						setLoadingText(text=> text+'ALMOST READY...\n')						
-						timeout = setTimeout(() => {
+						timeout = sleep(() => {
 							setLoadingText(text=> text+'DESTROYING GPUs...\n')							
-							timeout = setTimeout(() => {
+							timeout = sleep(() => {
 								setLoadingText(text=> text+'MAKING MUSIC...\n')							
 							}, time_interval);
 						}, time_interval);
@@ -118,14 +118,13 @@ function App() {
 	}, []); //on component mount
 
 	const MAX_MIDI = 88
-	const NOTE_HEIGHT = 8
+	const NOTE_HEIGHT = 5
 	const DURATION_FACTOR = 100
 	async function onChordDown(chord) {
 		if (chord != currentChord) {
 			await playerTwo.triggerChordAttack(chord.array);
 			setCurrentChord(chord);
 		}
-		
 		recorder.onChordPressed(chord);
 	}
 	
@@ -142,12 +141,18 @@ function App() {
 	for (let chord of data.sampleChords) {
 		Mousetrap.bind(chord.key, () => onChordDown(chord), 'keypress');
 		Mousetrap.bind(chord.key, () => onChordUp(chord), 'keyup');
-	}
 
+	}
+	function sleep(ms) {
+	  return new Promise(resolve => setTimeout(resolve, ms));
+	}
 
 	return (
 		<div className="App">
-			<div style={{position: 'absolute', top: 10, right: 20, color: 'tomato'}}>{recorder.windowLength - recorder.slices.length}</div>
+			<div style={{position: 'absolute', top: 10, right: 20, zIndex:'1', color: 'tomato'}}>{recorder.windowLength - recorder.slices.length}</div>
+			<div class = "overlay" id="count3" style={{visibility:'hidden'}}>3</div>
+			<div class = "overlay" id="count2" style={{visibility:'hidden'}}>2</div>
+			<div class = "overlay" id="count1" style={{visibility:'hidden'}}>1</div>
 			<div className="App-header">
 				<div style={{ width: "20%", textTransform: "uppercase", fontSize: "2vw"}}>jazz generation project </div>
 				<PlayBar
@@ -172,25 +177,12 @@ function App() {
 						}
 
 					}}
-					onClickPlay={async () => {
-						if(notes.length == 0) {
-							let midiFile = await player.midiFileFromUrl('/ABeautifulFriendship.mid');
-							let notes = player.notesFromMidiFile(midiFile);
-							player.addNotes(notes);
-							setNotes(notes);
-						}
 
-						if(Tone.context.state == 'suspended') {
-							Tone.start()
-						}
-
-						Tone.Transport.start()				
-					}}
-					onClickPause={() => player.pausePlayback()}
 					onClickStop={async () => {
 						await player.stopMidiFile();						
 						setIsGenerating(false);
 						setNotes([]);
+						setPlaying(false);
 					}}
 					onClickRecord={async () => {
 						//reset
@@ -200,8 +192,20 @@ function App() {
 						setIsGenerating(false);
 						setNotes([]);
 
+						var duration = parseInt(document.getElementById("recordDuration").value);
+
+						document.getElementById("count3").style.visibility = 'visible';
+						await sleep(1000);
+						document.getElementById("count3").style.visibility = 'hidden';
+						document.getElementById("count2").style.visibility = 'visible';
+						await sleep(1000);
+						document.getElementById("count2").style.visibility = 'hidden';
+						document.getElementById("count1").style.visibility = 'visible';
+						await sleep(1000);
+						document.getElementById("count1").style.visibility = 'hidden';
+
 						Tone.Transport.start() //to start time
-						recorder.startRecording();
+						recorder.startRecording(duration);
 						setRecording(true);
 					
 					}}
@@ -211,6 +215,7 @@ function App() {
 					onClickRewind={() => {
 						Tone.Transport.pause()
 						Tone.Transport.seconds = 0
+						setPlaying(false);
 					}}
 					recordingState = {recording}
 					playingState = {playing}
@@ -218,17 +223,6 @@ function App() {
 				{/* <div style={{ width: "20%" }}></div> */}
 				<Insturction></Insturction>
 			</div>
-			{/* <button onClick={() => setPlay(true)}>begin</button>    */}
-
-			{/* {notes.map((note, i) => {
-				// const noteDescription = `${note.name} note: ${note.midi} dur:${note.duration} time:${note.time}`
-				const noteDescription = `${note.name}`
-				return <div
-				key={`${i}`}
-				style={{ position: 'absolute', left: note.time * DURATION_FACTOR - playheadTime, top: MAX_MIDI * NOTE_HEIGHT - note.midi * NOTE_HEIGHT, width: note.duration * DURATION_FACTOR, height: NOTE_HEIGHT, backgroundColor: 'tomato' }}
-				>{noteDescription}</div>
-			}
-		)} */}
 			<div className="App-piano">				
 				{initializingGeneration && <div style={{height: '100%', width: '100%', position: 'absolute',left: 0, top: 0, zIndex: 1000, display: 'flex'}}>
 					<div style={{height: '100%', width: '100%', position: 'absolute',left: 0, top: 0, backgroundColor: 'black', opacity: 0.3, zIndex: 10}}/>
@@ -247,28 +241,77 @@ function App() {
 					let offset = playheadTime - 500
 					return <div
 						key={`${i}`}
-						style={{ position: "absolute", left: note.time * DURATION_FACTOR - offset, top: MAX_MIDI * NOTE_HEIGHT - note.midi * NOTE_HEIGHT, width: note.duration * DURATION_FACTOR, height: NOTE_HEIGHT, backgroundColor: recorded ? 'tomato' : '#7Ec291' }}
+						style={{ position: "absolute", left: note.time * DURATION_FACTOR - offset, top: MAX_MIDI * NOTE_HEIGHT - note.midi * NOTE_HEIGHT, width: note.duration * DURATION_FACTOR, height: NOTE_HEIGHT, backgroundColor: recorded ? '#BE2F29' : '#7Ec291' }}
 					></div>
 				}
 				)}
 			</div>
-			{/* <div style={{backgroundColor:"yellow",position:"relative"}}> HELLO</div> */}
-			<div className="App-preset-container">
-				{presentChords.map((chord) => {
-					return <button
-						className="App-preset"
-						id={`${chord.key}`}
-						key={`${chord.key}`}
-						name={`${chord.name}`}
-						onPointerUp={(e) => onChordUp(chord)}
-						onPointerDown={(e) => onChordDown(chord)}
-					// onKeyUp={(e)=>onChordUp(chord)}
-					// onKeyDown={(e)=>onChordDown(chord)}
-					>
-						<div style={{ paddingTop: "2.5vw", fontSize: "1.25vw" }}>{chord.name}</div>
-						<div style={{ paddingTop: "1.25vw", fontSize: "1vw", color: "#E37B7B" }}>{chord.key}</div>
-					</button>
-				})}
+			<div style={{height:'25%', display:'flex'}}>
+				<div style={{height:'100%', width:'40%', margin:'0 0.25% 0 0.5%'}}>
+					<div className="App-preset-container">
+						{presentChords.slice(0,5).map((chord) => {
+							return <button
+								className="App-preset"
+								id={`${chord.name}`}
+								key={`${chord.key}`}
+								name={`${chord.name}`}
+								onPointerUp={(e) => onChordUp(chord)}
+								onPointerDown={(e) => onChordDown(chord)}
+							// onKeyUp={(e)=>onChordUp(chord)}
+							// onKeyDown={(e)=>onChordDown(chord)}
+							>
+								<div style={{ paddingTop: "0.5vw", fontSize: "1.25vw" }}>{chord.name}</div>
+								<div style={{ paddingTop: "1.25vw", fontSize: "1.25vw", color: "#E37B7B" }}>{chord.key}</div>
+							</button>
+						})}
+					</div>
+					<div className="App-preset-container">
+						{presentChords.slice(5,10).map((chord) => {
+							return <button
+								className="App-preset"
+								id={`${chord.key}`}
+								key={`${chord.key}`}
+								name={`${chord.name}`}
+								onPointerUp={(e) => onChordUp(chord)}
+								onPointerDown={(e) => onChordDown(chord)}
+							// onKeyUp={(e)=>onChordUp(chord)}
+							// onKeyDown={(e)=>onChordDown(chord)}
+							>
+								<div style={{ paddingTop: "0.5vw", fontSize: "1.25vw" }}>{chord.name}</div>
+								<div style={{ paddingTop: "1.25vw", fontSize: "1.25vw", color: "#E37B7B" }}>{chord.key}</div>
+							</button>
+						})}
+					</div>
+				</div>
+				<div style={{height:'100%'}}>
+					<ul class="set">
+						<li class="white b"></li>
+						<li class="black as"></li>
+						<li class="white a"></li>
+						<li class="black gs"></li>
+						<li class="white g">a</li>
+						<li class="black fs">w</li>
+						<li class="white f">s</li>
+						<li class="white e">d</li>
+						<li class="black ds">r</li>
+						<li class="white d">f</li>
+						<li class="black cs">t</li>
+						<li class="white c">g</li>
+						<li class="white b">h</li>
+						<li class="black as">u</li>
+						<li class="white a">j</li>
+						<li class="black gs">i</li>
+						<li class="white g">k</li>
+						<li class="black fs">o</li>
+						<li class="white f">l</li>
+						<li class="white e">;</li>
+						<li class="black ds">[</li>
+						<li class="white d">'</li>
+						<li class="black cs"></li>
+						<li class="white c"></li>
+					</ul>
+
+				</div>
 			</div>
 		</div>
 	);

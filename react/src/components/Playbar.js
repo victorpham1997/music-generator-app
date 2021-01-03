@@ -12,32 +12,40 @@ import '../App.css';
 
 export default function PlayBar(props){
     return(
-        <div className="App-Playbar" style={{width:"25%", height:"20%"}}>
-            <IconButton disabled={props.recordingState} onClick={props.onClickRewind} className="material-icons play-button">
-                <FastRewind style={{width: '3vw', height: '3vw', fill: '#0C1115'}}/>
-            </IconButton>
-
-
-            <IconButton disabled={props.recordingState} onClick={props.onClickPlayPause} className="material-icons play-button">
-                { props.playingState
-                    ? <Pause style={{width: '3vw', height: '3vw', fill: '#0C1115'}}/>
-                    : <PlayArrow style={{width: '3vw', height: '3vw', fill: '#0C1115'}}/>
-                }
-                
-            </IconButton>
-
-
-            <IconButton disabled={props.recordingState} onClick={props.onClickStop} className="material-icons play-button">
-                <Stop style={{width: '3vw', height: '3vw', fill: '#0C1115'}}/>
-            </IconButton>
-            <IconButton onClick={props.onClickRecord} className="material-icons play-button">
-                <FiberManualRecord style={{width: '3vw', height: '3vw', fill: props.recordingState ? '#c4302b': '#E37B7B'}}/>
-            </IconButton>
-            {/* <button disabled={props.recordingState} onClick={props.onClickPlay} className="material-icons play-button">play_arrow</button>
-            <button disabled={props.recordingState} onClick={props.onClickPause} className="material-icons play-button" >pause</button>
-            <button disabled={props.recordingState} onClick={props.onClickStop} className="material-icons play-button">stop</button>
-            {!props.recordingState && <button onClick={props.onClickRecord} className="material-icons red play-button">fiber_manual_record</button>}
-            {props.recordingState && <button onClick={props.onClickRecordStop} className="material-icons redder play-button">fiber_manual_record</button>} */}
+        <div>
+            <div className="App-Playbar" >
+                <IconButton disabled={props.recordingState} onClick={props.onClickRewind} className="material-icons play-button">
+                    <FastRewind style={{width: '3vw', height: '3vw', fill: 'white'}}/>
+                </IconButton>
+                <IconButton disabled={props.recordingState} onClick={props.onClickPlayPause} className="material-icons play-button">
+                    { props.playingState
+                        ? <Pause style={{width: '3vw', height: '3vw', fill: 'white'}}/>
+                        : <PlayArrow style={{width: '3vw', height: '3vw', fill: 'white'}}/>
+                    }
+                </IconButton>
+                <IconButton disabled={props.recordingState} onClick={props.onClickStop} className="material-icons play-button">
+                    <Stop style={{width: '3vw', height: '3vw', fill: 'white'}}/>
+                </IconButton>
+                <IconButton onClick={props.onClickRecord} className="material-icons play-button">
+                    <FiberManualRecord style={{width: '3vw', height: '3vw', fill: props.recordingState ? '#c4302b': '#E37B7B'}}/>
+                </IconButton>
+                {/* <button disabled={props.recordingState} onClick={props.onClickPlay} className="material-icons play-button">play_arrow</button>
+                <button disabled={props.recordingState} onClick={props.onClickPause} className="material-icons play-button" >pause</button>
+                <button disabled={props.recordingState} onClick={props.onClickStop} className="material-icons play-button">stop</button>
+                {!props.recordingState && <button onClick={props.onClickRecord} className="material-icons red play-button">fiber_manual_record</button>}
+                {props.recordingState && <button onClick={props.onClickRecordStop} className="material-icons redder play-button">fiber_manual_record</button>} */}    
+            </div>
+            <div className="App-Setting">
+                <div class="column">
+                    Record duration:
+                    <br/>
+                    <select id="recordDuration" class="dropdown-option">
+                        <option value="3">&nbsp; 3 seconds</option>
+                        <option value="5">&nbsp; 5 seconds</option>
+                        <option value="7">&nbsp; 7 seconds</option>
+                    </select>
+                </div>
+            </div>
         </div>
     );
 
