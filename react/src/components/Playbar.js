@@ -41,8 +41,8 @@ export default function PlayBar(props){
                     <br/>
                     <select id="recordDuration" class="dropdown-option">
                         <option value="3">&nbsp; 3 seconds</option>
+                        <option value="4">&nbsp; 4 seconds</option>
                         <option value="5">&nbsp; 5 seconds</option>
-                        <option value="7">&nbsp; 7 seconds</option>
                     </select>
                 </div>
             </div>

@@ -22,7 +22,7 @@ def pianoRollToTokenSequence(piano_roll, combi_to_int):
     return [combi_to_int[combi] for combi in combi_pairs]
 
 def combiSequenceToTokenSequence(combi_sequence, combi_to_int):
-    return [combi_to_int[combi] for combi in combi_sequence]
+    return [combi_to_int[combi] if combi in combi_to_int else 0 for combi in combi_sequence]
 #internal
 def tokenSequenceToPianoRoll(token_sequence, int_to_combi):
     mlb = MultiLabelBinarizer()
