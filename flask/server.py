@@ -100,6 +100,10 @@ def generate_next_token_sequence():
     return Response(json.dumps(generated_token_sequence),  mimetype='application/json')
     # return generated_token_sequence
 
+@app.route('/test')
+@cross_origin()
+def hello_world():
+    return 'Hello, World!'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host='0.0.0.0', port=5000)
