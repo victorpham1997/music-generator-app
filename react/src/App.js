@@ -141,8 +141,8 @@ function App() {
 		})()
 	}, []); //on component mount
 
-	const MAX_MIDI = 88
-	const NOTE_HEIGHT = 5
+	const MAX_MIDI = 100
+	const NOTE_HEIGHT = 4
 	const DURATION_FACTOR = 100
 	async function onChordDown(chord) {
 		if (chord != currentChord) {
