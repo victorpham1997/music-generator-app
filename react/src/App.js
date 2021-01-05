@@ -100,7 +100,7 @@ function App() {
 				var buffer_pause = false;
 
 				for(let i=0; i<999; i++) {
-					if(Tone.Transport.seconds > (i*5+3)){
+					if(Tone.Transport.seconds > (i*5+2.5)){
 						if(Tone.Transport.state=="started"){
 							buffer_pause = true;
 							document.getElementById("buffering").style.visibility = 'visible';
