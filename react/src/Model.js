@@ -2,7 +2,7 @@ import { Midi } from '@tonejs/midi';
 import axios from 'axios';
 import fileDownload from 'js-file-download'
 
-const server = 'http://localhost:5000'
+const server = 'http://34.122.46.102:5000'
 
 export default class Model {
 

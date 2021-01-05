@@ -1,5 +1,6 @@
 import Modal from '@material-ui/core/Modal';
 import Info from '@material-ui/icons/Info';
+import Help from '@material-ui/icons/Help';
 import { useEffect, useState } from 'react'
 import '../App.css';
 import { Button, Icon, IconButton } from '@material-ui/core';
@@ -64,23 +65,25 @@ export default function Instruction(){
                 <div className="modal-instructions">
                     <div className="modal-instructions-text bold">Instructions:</div>
                     <br></br>
-                    <div className="modal-instructions-text">(1) Familiarise yourself with the Chords and Notes are the bottom, you can either click on them or press the keys (highlighted in orange) on your keyboard </div>
+                    <div className="modal-instructions-text">(1) Familiarise yourself with the Chords and Notes at the bottom, you can use your keyboard to play as indicated on each note and chord</div>
                     <br></br>
                     <div className="modal-instructions-text">(2) Press the becord button (Red Circle)</div>
                     <br></br>
-                    <div className="modal-instructions-text">(3) Immediately enter the chords/notes of your choice. Quick you only have 2s!</div>
+                    <div className="modal-instructions-text">(3) After 3 seconds, enter the chords/notes of your choice, <b>the predicted notes are quite dependent on these input notes so try to be as creative as possible!!!</b>. You can adjust the record duration!</div>
                     <br></br>
                     <div className="modal-instructions-text">(4) Wait for generated music to load onto the screen</div>
                     <br></br>
                     <div className="modal-instructions-text">(5) Press the play button (Triangle)</div>
                     <br></br>
-                    <div className="modal-instructions-text">(6) Enjoy!</div>
+                    <div className="modal-instructions-text">(6) Enjoy! (although there will be buffering sometimes due to potato server, sorry...)</div>
                     <br></br>
                     <div className="modal-instructions-text">(7) Before starting a new recording, please prease the stop button (Square) </div>
                     <br></br>
                     <div className="modal-instructions-text">(8) You can also pause a song by pressing the pause button ( 2 rectangular blocks)</div>
                     <br></br>
                     <div className="modal-instructions-text">(9) You can also press the rewind button (Double Triangle) to listen back to our collective creation</div>
+                    <br></br>
+                    <div className="modal-instructions-text" style={{fontSize:"1.1vw"}}>Lastly, this web app and project was made by <a href="https://github.com/elliotmoose">Elliot Koh</a>, <a href="https://github.com/oliviergoals">Sean Lim</a>, <a href="https://github.com/sidharth3">Sidharth Praveen</a> and <a href="https://github.com/victorpham1997">Viet Pham</a>. For more information on the project and source code, please visit <a href="https://github.com/victorpham1997">this article</a>!</div>
                     <br></br>
                     
                 </div>
@@ -91,7 +94,7 @@ export default function Instruction(){
     return(
         <div style={{width:"20%"}}>
             <IconButton type="button" onClick={handleOpenModal} className="instruction-button">
-                <Info style={{width: '5vw', height: '5vw', fill: '#0C1115'}}/>
+                <Help style={{width: '5vw', height: '5vw', fill: '#0C1115'}}/>
             </IconButton>
             <Modal
                   open={open}

@@ -14,7 +14,7 @@ bpm = 120
 
 class Model:
     def __init__(self):
-        dir = './model_new'
+        dir = './model'
         self.load_model(dir)
         self.load_dictionaries(dir)
 
@@ -73,7 +73,6 @@ class Model:
         #     print(f"generated {len(tokens_generated)} notes")
         # return tokens_generated
         tokens_generated = []
-
         while len(tokens_generated) <= num_note_to_gen:
             x = token_sequence[-chunk_duration:]
             pad_len = chunk_duration - len(x)
@@ -83,6 +82,7 @@ class Model:
                 x = token_sequence + [0] * pad_len
                 sample_index = len(token_sequence) - 1
             x = np.array([x])
+            print(x)
             y, _ = self.model.predict(x)
             sample_token = helpers.sample_from(y[0][sample_index], 10)
             tokens_generated.append(int(sample_token))

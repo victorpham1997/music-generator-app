@@ -17,7 +17,7 @@ export default function PlayBar(props){
                 <IconButton disabled={props.recordingState} onClick={props.onClickRewind} className="material-icons play-button">
                     <FastRewind style={{width: '3vw', height: '3vw', fill: 'white'}}/>
                 </IconButton>
-                <IconButton disabled={props.recordingState} onClick={props.onClickPlayPause} className="material-icons play-button">
+                <IconButton id="play-pause-button" disabled={props.recordingState} onClick={props.onClickPlayPause} className="material-icons play-button">
                     { props.playingState
                         ? <Pause style={{width: '3vw', height: '3vw', fill: 'white'}}/>
                         : <PlayArrow style={{width: '3vw', height: '3vw', fill: 'white'}}/>

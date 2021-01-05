@@ -27,6 +27,7 @@ function App() {
 	const [playheadTime, setPlayheadTime] = useState(0);
 	const [presentChords, setPresetChords] = useState([]);
 
+
 	const [currentChord, setCurrentChord] = useState(null);
 
 	useEffect(() => {
@@ -41,8 +42,8 @@ function App() {
 			
 			if (!interval) {
 				interval = setInterval(() => {
-					setPlayheadTime(Tone.Transport.seconds * DURATION_FACTOR)
-					
+					setPlayheadTime(Tone.Transport.seconds * DURATION_FACTOR);
+
 					//retrieve recording state
 					setRecording(recording=>{
 						if(recording) {
@@ -95,7 +96,30 @@ function App() {
 				clearTimeout(timeout)
 				setLoadingText('WAKING A.I. UP...\n')
 
+
+				var buffer_pause = false;
+
 				for(let i=0; i<999; i++) {
+					if(Tone.Transport.seconds > (i*5+3)){
+						if(Tone.Transport.state=="started"){
+							buffer_pause = true;
+							document.getElementById("buffering").style.visibility = 'visible';
+							player.pausePlayback()
+						}
+					}else if(Tone.Transport.seconds < (i*5 - 10)){
+						if(Tone.Transport.state!="started" && buffer_pause){
+							buffer_pause = false;
+							if(Tone.context.state == 'suspended') {
+								Tone.start();
+							}
+							Tone.Transport.start();
+							document.getElementById("buffering").style.visibility = 'hidden';
+
+						}
+					}
+
+					
+
 					let {midi: generatedMidiFile, slicesBeforeGenerated } = await model.generateNext();
 					let timeOffset = slicesBeforeGenerated * recorder.timeSlice;
 					let generatedNotes = player.notesFromMidiFile(generatedMidiFile, timeOffset);					
@@ -156,6 +180,7 @@ function App() {
 			<div class = "overlay" id="count3" style={{visibility:'hidden'}}>3</div>
 			<div class = "overlay" id="count2" style={{visibility:'hidden'}}>2</div>
 			<div class = "overlay" id="count1" style={{visibility:'hidden'}}>1</div>
+			<div class = "overlay" id="buffering" style={{visibility:'hidden', fontSize:"5vw", display:"block"}}><br></br><br></br><p>Buffering...</p><p style={{fontSize:"1vw"}}>You can pause and wait for a short while or rewind back to the beginning, so sorry for this :)</p></div>
 			<div className="App-header">
 				<div style={{ width: "20%", textTransform: "uppercase", fontSize: "2vw"}}>jazz generation project </div>
 				<PlayBar
@@ -174,9 +199,11 @@ function App() {
 
 							Tone.Transport.start()
 							setPlaying(true)
+
 						}else{
 							player.pausePlayback()
 							setPlaying(false)
+							console.log("duration is:" + Tone.Transport.seconds)
 						}
 
 					}}

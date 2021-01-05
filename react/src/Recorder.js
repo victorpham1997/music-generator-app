@@ -97,7 +97,6 @@ export default class Recorder
         if(this.slices.length > this.windowLength) {
             this.finishRecording();
         }
-        console.log(JSON.parse(JSON.stringify(this.currentChord)));
         this.slices.push(this.combineChord(JSON.parse(JSON.stringify(this.currentChord))));
     }
 
