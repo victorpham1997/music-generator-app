@@ -29,6 +29,9 @@ function App() {
 
 
 	const [currentChord, setCurrentChord] = useState(null);
+	const screenRatio = window.screen.availHeight/window.screen.availWidth;
+	console.log(screenRatio);
+
 
 	useEffect(() => {
 		(async () => {
@@ -39,12 +42,20 @@ function App() {
 			setPlayerTwo(playerTwo);
 
 			setPresetChords(SampleChords)
+			if(screenRatio<1){
+				console.log("Screen ratio is acceptable");
+			}else{
+				console.log("Please enable rotate and switch to lanscape on your device");
+				document.getElementById("screenRatioAlert").style.visibility = 'visible';
+
+			}
 			
 			if (!interval) {
 				interval = setInterval(() => {
 					setPlayheadTime(Tone.Transport.seconds * DURATION_FACTOR);
 
 					//retrieve recording state
+					
 					setRecording(recording=>{
 						if(recording) {
 							let notes = recorder.getVisualNotes();						
@@ -174,12 +185,14 @@ function App() {
 	  return new Promise(resolve => setTimeout(resolve, ms));
 	}
 
+ // suitable, please enable device rotation and rotate to horizontal mode. Thank you!
 	return (
 		<div className="App">
 			<div style={{position: 'absolute', top: 10, right: 20, zIndex:'1', color: 'tomato'}}>{recorder.windowLength - recorder.slices.length}</div>
 			<div class = "overlay" id="count3" style={{visibility:'hidden'}}>3</div>
 			<div class = "overlay" id="count2" style={{visibility:'hidden'}}>2</div>
 			<div class = "overlay" id="count1" style={{visibility:'hidden'}}>1</div>
+			<div class = "overlay" id="screenRatioAlert" style={{visibility:'hidden'}}>Your screen ratio is not suitable for the application, please enable screen rotation, rotate to horizontal and reload the page. Thank you!</div>
 			<div class = "overlay" id="buffering" style={{visibility:'hidden', fontSize:"5vw", display:"block"}}><br></br><br></br><p>Buffering...</p><p style={{fontSize:"1vw"}}>You can pause and wait for a short while or rewind back to the beginning, so sorry for this :)</p></div>
 			<div className="App-header">
 				<div style={{ width: "20%", textTransform: "uppercase", fontSize: "2vw"}}>jazz generation project </div>
@@ -287,6 +300,7 @@ function App() {
 								name={`${chord.name}`}
 								onPointerUp={(e) => onChordUp(chord)}
 								onPointerDown={(e) => onChordDown(chord)}
+								onPointerOut={(e) => onChordUp(chord)}
 							// onKeyUp={(e)=>onChordUp(chord)}
 							// onKeyDown={(e)=>onChordDown(chord)}
 							>
@@ -303,6 +317,7 @@ function App() {
 								key={`${chord.key}`}
 								name={`${chord.name}`}
 								onPointerUp={(e) => onChordUp(chord)}
+								onPointerOut={(e) => onChordUp(chord)}
 								onPointerDown={(e) => onChordDown(chord)}
 							// onKeyUp={(e)=>onChordUp(chord)}
 							// onKeyDown={(e)=>onChordDown(chord)}
@@ -318,26 +333,26 @@ function App() {
 						<li class="white b"></li>
 						<li class="black as"></li>
 						<li class="white a"></li>
-						<li class="black gs" id="G#3">q</li>
-						<li class="white g" id="A3">a</li>
-						<li class="black fs" id="A#3">w</li>
-						<li class="white f" id="B3">s</li>
-						<li class="white e" id="C4">d</li>
-						<li class="black ds" id="C#4">r</li>
-						<li class="white d" id="D4">f</li>
-						<li class="black cs" id="D#4">t</li>
-						<li class="white c" id="E4">g</li>
-						<li class="white b " id="F4">h</li>
-						<li class="black as" id="F#4">u</li>
-						<li class="white a" id="G4">j</li>
-						<li class="black gs" id="G#4">i</li>
-						<li class="white g" id="A4">k</li>
-						<li class="black fs" id="A#4">o</li>
-						<li class="white f" id="B4">l</li>
-						<li class="white e" id="C5">;</li>
-						<li class="black ds" id="C#5">[</li>
-						<li class="white d" id="D5">'</li>
-						<li class="black cs" id="D#5">]</li>
+						<li class="black gs" id="G#3" onPointerUp={(e) => onChordUp(SampleChords[10])} onPointerOut={(e) => onChordUp(SampleChords[10])}  onPointerCancOut={(e) => onChordUp(SampleChords[10])} onPointerDown={(e) => onChordDown(SampleChords[10])}>q</li>
+						<li class="white g" id="A3" onPointerUp={(e) => onChordUp(SampleChords[11])} onPointerOut={(e) => onChordUp(SampleChords[11])} onPointerDown={(e) => onChordDown(SampleChords[11])}>a</li>
+						<li class="black fs" id="A#3" onPointerUp={(e) => onChordUp(SampleChords[12])} onPointerOut={(e) => onChordUp(SampleChords[12])} onPointerDown={(e) => onChordDown(SampleChords[12])}>w</li>
+						<li class="white f" id="B3" onPointerUp={(e) => onChordUp(SampleChords[13])} onPointerOut={(e) => onChordUp(SampleChords[13])} onPointerDown={(e) => onChordDown(SampleChords[13])}>s</li>
+						<li class="white e" id="C4" onPointerUp={(e) => onChordUp(SampleChords[14])} onPointerOut={(e) => onChordUp(SampleChords[14])} onPointerDown={(e) => onChordDown(SampleChords[14])}>d</li>
+						<li class="black ds" id="C#4" onPointerUp={(e) => onChordUp(SampleChords[15])} onPointerOut={(e) => onChordUp(SampleChords[15])} onPointerDown={(e) => onChordDown(SampleChords[15])}>r</li>
+						<li class="white d" id="D4" onPointerUp={(e) => onChordUp(SampleChords[16])} onPointerOut={(e) => onChordUp(SampleChords[16])} onPointerDown={(e) => onChordDown(SampleChords[16])}>f</li>
+						<li class="black cs" id="D#4" onPointerUp={(e) => onChordUp(SampleChords[17])} onPointerOut={(e) => onChordUp(SampleChords[17])} onPointerDown={(e) => onChordDown(SampleChords[17])}>t</li>
+						<li class="white c" id="E4" onPointerUp={(e) => onChordUp(SampleChords[18])} onPointerOut={(e) => onChordUp(SampleChords[18])} onPointerDown={(e) => onChordDown(SampleChords[18])}>g</li>
+						<li class="white b " id="F4" onPointerUp={(e) => onChordUp(SampleChords[19])} onPointerOut={(e) => onChordUp(SampleChords[19])} onPointerDown={(e) => onChordDown(SampleChords[19])}>h</li>
+						<li class="black as" id="F#4" onPointerUp={(e) => onChordUp(SampleChords[20])} onPointerOut={(e) => onChordUp(SampleChords[20])} onPointerDown={(e) => onChordDown(SampleChords[20])}>u</li>
+						<li class="white a" id="G4" onPointerUp={(e) => onChordUp(SampleChords[21])} onPointerOut={(e) => onChordUp(SampleChords[21])} onPointerDown={(e) => onChordDown(SampleChords[21])}>j</li>
+						<li class="black gs" id="G#4" onPointerUp={(e) => onChordUp(SampleChords[22])} onPointerOut={(e) => onChordUp(SampleChords[22])} onPointerDown={(e) => onChordDown(SampleChords[22])}>i</li>
+						<li class="white g" id="A4" onPointerUp={(e) => onChordUp(SampleChords[23])} onPointerOut={(e) => onChordUp(SampleChords[23])} onPointerDown={(e) => onChordDown(SampleChords[23])}>k</li>
+						<li class="black fs" id="A#4" onPointerUp={(e) => onChordUp(SampleChords[24])} onPointerOut={(e) => onChordUp(SampleChords[24])} onPointerDown={(e) => onChordDown(SampleChords[24])}>o</li>
+						<li class="white f" id="B4" onPointerUp={(e) => onChordUp(SampleChords[25])} onPointerOut={(e) => onChordUp(SampleChords[25])} onPointerDown={(e) => onChordDown(SampleChords[25])}>l</li>
+						<li class="white e" id="C5" onPointerUp={(e) => onChordUp(SampleChords[26])} onPointerOut={(e) => onChordUp(SampleChords[26])} onPointerDown={(e) => onChordDown(SampleChords[26])}>;</li>
+						<li class="black ds" id="C#5" onPointerUp={(e) => onChordUp(SampleChords[27])} onPointerOut={(e) => onChordUp(SampleChords[27])} onPointerDown={(e) => onChordDown(SampleChords[27])}>[</li>
+						<li class="white d" id="D5" onPointerUp={(e) => onChordUp(SampleChords[28])} onPointerOut={(e) => onChordUp(SampleChords[28])} onPointerDown={(e) => onChordDown(SampleChords[28])}>'</li>
+						<li class="black cs" id="D#5" onPointerUp={(e) => onChordUp(SampleChords[29])} onPointerOut={(e) => onChordUp(SampleChords[29])} onPointerDown={(e) => onChordDown(SampleChords[29])}>]</li>
 						<li class="white c"></li>
 					</ul>
 
