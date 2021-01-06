@@ -9,12 +9,13 @@ import glob
 from sklearn.preprocessing import MultiLabelBinarizer
 
 # chunk_duration = 300
+
 chunk_duration = 300
 bpm = 120
 
 class Model:
     def __init__(self):
-        dir = './model'
+        dir = './model_gpt_3_1_lightweight'
         self.load_model(dir)
         self.load_dictionaries(dir)
 
@@ -51,7 +52,6 @@ class Model:
         return helpers.prettyMidiToBytesIO(pretty_midi_file)
 
     def generateTokenSequenceFromTokenSequence(self, token_sequence, num_note_to_gen):    
-
         # if len(token_sequence) > chunk_duration:
         #     token_sequence = token_sequence[:chunk_duration]
         
@@ -73,6 +73,7 @@ class Model:
         #     print(f"generated {len(tokens_generated)} notes")
         # return tokens_generated
         tokens_generated = []
+
         while len(tokens_generated) <= num_note_to_gen:
             x = token_sequence[-chunk_duration:]
             pad_len = chunk_duration - len(x)
@@ -82,7 +83,6 @@ class Model:
                 x = token_sequence + [0] * pad_len
                 sample_index = len(token_sequence) - 1
             x = np.array([x])
-            print(x)
             y, _ = self.model.predict(x)
             sample_token = helpers.sample_from(y[0][sample_index], 10)
             tokens_generated.append(int(sample_token))

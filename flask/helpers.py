@@ -15,6 +15,7 @@ def sample_from(logits, k):
     out = np.random.choice(indices, p=preds)
     return np.random.choice(indices, p=preds)
 
+
 def pianoRollToTokenSequence(piano_roll, combi_to_int):
     mlb = MultiLabelBinarizer()
     mlb.fit([np.arange(128).tolist()])
