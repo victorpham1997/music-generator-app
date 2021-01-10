@@ -171,7 +171,7 @@
 }
 
 .modal-instructions-text{
-  font-size: medium;  
+  font-size: medium;
 }
 .modal-instructions-text.bold{
   font-weight: 700;
@@ -259,4 +259,67 @@ ul li:first-child {
 
 ul li:last-child {
   border-radius:0 5px 5px 5px
+}
+
+/*switch css*/
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 4.72vw;
+  height: 2.5vw;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 2.2vw;
+  width: 2.2vw;
+  bottom: 0.16vw;
+  left: 0.16vw;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #124653;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #124653;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(2.2vw);
+  -ms-transform: translateX(2.2vw);
+  transform: translateX(2.2vw);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }

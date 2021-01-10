@@ -1,14 +1,19 @@
 import { Midi } from '@tonejs/midi';
 import axios from 'axios';
-import fileDownload from 'js-file-download'
+import fileDownload from 'js-file-download';
 
-const server = 'myserverwashere'
+
+const server = 'http://localhost:5000'
+
 
 export default class Model {
 
     constructor() {
         this.lastTokenSequence = []
         this.fullTokenSequence = []
+        this.postProcessLimit = 5
+        this.usePostProcess = true;
+        this.emptyNoteIndex = 2;
     }
 
     async userInputToMidi(userInput) {
@@ -29,6 +34,28 @@ export default class Model {
             slicesBeforeGenerated: sliceOffsetCount
         };
     }
+    async changeUsePostProcess(bool){
+        this.usePostProcess = bool;
+        console.log(this.usePostProcess);
+    }
+
+    async postProcessSequence(sequence){
+        let processed_sequence = [];
+        let count_0 = 0;
+        const limit = this.postProcessLimit - 1;
+        for (var i = 0; i < sequence.length; i++) {
+            if(i>0 && sequence[i] == this.emptyNoteIndex && sequence[i-1] == this.emptyNoteIndex){
+                count_0 = count_0+1;
+                if(count_0>limit){
+                  continue;
+                }
+            }else{
+                count_0=0;
+            }
+            processed_sequence.push(sequence[i]);
+        }
+        return processed_sequence
+    }
 
     async generateNextTokenSequence() {
         if(this.lastTokenSequence.length == 0) {
@@ -38,6 +65,14 @@ export default class Model {
         let window = 300
         let refTokenSequence = this.fullTokenSequence.length >= window ? this.fullTokenSequence.slice(this.fullTokenSequence.length-window) : this.fullTokenSequence; //if the full length is too short, just send the short one and let server side pad
         let generatedTokenSequence = await this.generateTokenSequenceFromTokenSequence(refTokenSequence)
+        //check and apply post process
+        // console.log("test", this.usePostProcess);
+
+        if(this.usePostProcess){
+            generatedTokenSequence = await this.postProcessSequence(generatedTokenSequence);
+            console.log("preprocess on");
+        }
+        console.log(generatedTokenSequence);
         this.fullTokenSequence = [...this.fullTokenSequence, ...generatedTokenSequence]; //append token sequence
         this.lastTokenSequence = generatedTokenSequence;
         return generatedTokenSequence;

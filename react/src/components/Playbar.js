@@ -37,13 +37,21 @@ export default function PlayBar(props){
             </div>
             <div className="App-Setting">
                 <div class="column">
-                    Record duration:
+                    Record duration
                     <br/>
                     <select id="recordDuration" class="dropdown-option">
                         <option value="3">&nbsp; 3 seconds</option>
                         <option value="4">&nbsp; 4 seconds</option>
                         <option value="5">&nbsp; 5 seconds</option>
                     </select>
+                </div>
+                <div class="column">
+                    Post processing
+                    <br/>
+                    <label class="switch">
+                      <input type="checkbox" checked={props.usePostProcessState} onChange={props.onClickChangePostProcess} />
+                      <span class="slider round"></span>
+                    </label>
                 </div>
             </div>
         </div>

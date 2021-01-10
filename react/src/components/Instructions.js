@@ -1,6 +1,11 @@
 import Modal from '@material-ui/core/Modal';
 import Info from '@material-ui/icons/Info';
 import Help from '@material-ui/icons/Help';
+import PlayArrow from '@material-ui/icons/PlayArrow';
+import Pause from '@material-ui/icons/Pause';
+import Stop from '@material-ui/icons/Stop';
+import FiberManualRecord from '@material-ui/icons/FiberManualRecord';
+import FastRewind from '@material-ui/icons/FastRewind';
 import { useEffect, useState } from 'react'
 import '../App.css';
 import { Button, Icon, IconButton } from '@material-ui/core';
@@ -60,30 +65,32 @@ export default function Instruction(){
     function Body(){
         return(
             <div style={{width:"50%", backgroundColor:"white",borderRadius:"30px",padding:"2vw 2vw", wordWrap:"break-word"}}>
-                <div style={{textAlign:"center",fontWeight:"700",fontSize:"3vw"}}>Jazz Generation</div>
+                <div style={{textAlign:"center",fontWeight:"700",fontSize:"3vw"}}>Welcome to the Jazz Generation Project!</div>
                 <br></br>
                 <div className="modal-instructions">
                     <div className="modal-instructions-text bold">Instructions:</div>
                     <br></br>
                     <div className="modal-instructions-text">(1) Familiarise yourself with the Chords and Notes at the bottom, you can use your keyboard to play as indicated on each note and chord</div>
                     <br></br>
-                    <div className="modal-instructions-text">(2) Press the becord button (Red Circle)</div>
+                    <div className="modal-instructions-text">(2) Press the record button <FiberManualRecord style={{width: '1.25vw', height: '1.25vw', fill:'#c4302b'}}/></div>
                     <br></br>
-                    <div className="modal-instructions-text">(3) After 3 seconds, enter the chords/notes of your choice, <b>the predicted notes are quite dependent on these input notes so try to be as creative as possible!!!</b>. You can adjust the record duration!</div>
+                    <div className="modal-instructions-text">(3) After 3 seconds, enter the chords/notes of your choice, <b>the predicted notes are quite dependent on your input so try to be as creative as possible!!!</b>.</div>
                     <br></br>
                     <div className="modal-instructions-text">(4) Wait for generated music to load onto the screen</div>
                     <br></br>
-                    <div className="modal-instructions-text">(5) Press the play button (Triangle)</div>
+                    <div className="modal-instructions-text">(5) Press the play button <PlayArrow style={{width: '1.25vw', height: '1.25vw', fill: 'black'}}/></div>
                     <br></br>
                     <div className="modal-instructions-text">(6) Enjoy! (although there will be buffering sometimes due to potato server, sorry...)</div>
                     <br></br>
-                    <div className="modal-instructions-text">(7) Before starting a new recording, please prease the stop button (Square) </div>
+                    <div className="modal-instructions-text">(7) Before starting a new recording, please prease the stop button <Stop style={{width: '1.25vw', height: '1.25vw', fill: 'black'}}/> </div>
                     <br></br>
-                    <div className="modal-instructions-text">(8) You can also pause a song by pressing the pause button ( 2 rectangular blocks)</div>
+                    <div className="modal-instructions-text">(8) You can also pause a song by pressing the pause button <Pause style={{width: '1.25vw', height: '1.25vw', fill: 'black'}}/></div>
                     <br></br>
-                    <div className="modal-instructions-text">(9) You can also press the rewind button (Double Triangle) to listen back to our collective creation</div>
+                    <div className="modal-instructions-text">(9) You can also press the rewind button <FastRewind style={{width: '1.25vw', height: '1.25vw', fill: 'black'}}/> to listen back to our collective creation</div>
                     <br></br>
-                    <div className="modal-instructions-text" style={{fontSize:"1.1vw"}}>Lastly, this web app and project was made by <a href="https://github.com/elliotmoose">Elliot Koh</a>, <a href="https://github.com/oliviergoals">Sean Lim</a>, <a href="https://github.com/sidharth3">Sidharth Praveen</a> and <a href="https://github.com/victorpham1997">Viet Pham</a>. For more information on the project and source code, please visit <a href="https://github.com/victorpham1997">this article</a>!</div>
+                    <div className="modal-instructions-text" style={{fontSize:"1.1vw"}}><i>Lastly, this web app and project was made by <a href="https://github.com/elliotmoose">Elliot Koh</a>, <a href="https://github.com/oliviergoals">Sean Lim</a>, <a href="https://github.com/sidharth3">Sidharth Praveen</a> and <a href="https://github.com/victorpham1997">Viet Pham</a>. For more information on the project and source code, please visit <a href="https://github.com/victorpham1997">this article</a>!</i></div>
+                    <br></br>
+                    <div className="modal-instructions-text" style={{fontSize:"0.8vw"}}>Press outside the box to continue.</div>
                     <br></br>
                     
                 </div>
@@ -93,7 +100,7 @@ export default function Instruction(){
 
     return(
         <div style={{width:"20%"}}>
-            <IconButton type="button" onClick={handleOpenModal} className="instruction-button">
+            <IconButton id = "helpButton" type="button" onClick={handleOpenModal} className="instruction-button">
                 <Help style={{width: '5vw', height: '5vw', fill: '#0C1115'}}/>
             </IconButton>
             <Modal

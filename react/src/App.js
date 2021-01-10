@@ -18,6 +18,7 @@ function App() {
 	const [playing, setPlaying] = useState(false);
 	const [initializingGeneration, setInitializingGeneration] = useState(false);
 	const [isGenerating, setIsGenerating] = useState(false);
+	const [usePostProcess, setUsePostProcess] = useState(true);
 	const [loadingText, setLoadingText] = useState('WAKING A.I. UP...\n');
 	const [player, setPlayer] = useState(new Player());
 	const [playerTwo, setPlayerTwo] = useState(new Player());
@@ -30,7 +31,6 @@ function App() {
 
 	const [currentChord, setCurrentChord] = useState(null);
 	const screenRatio = window.screen.availHeight/window.screen.availWidth;
-	console.log(screenRatio);
 
 
 	useEffect(() => {
@@ -49,13 +49,18 @@ function App() {
 				document.getElementById("screenRatioAlert").style.visibility = 'visible';
 
 			}
-			
+			// if(!localStorage.getItem("first_time")) {
+			//     // first time loaded!
+			//     localStorage.setItem("first_time","1");
+
+			// }
+			document.getElementById("helpButton").click();
+						
 			if (!interval) {
 				interval = setInterval(() => {
 					setPlayheadTime(Tone.Transport.seconds * DURATION_FACTOR);
 
 					//retrieve recording state
-					
 					setRecording(recording=>{
 						if(recording) {
 							let notes = recorder.getVisualNotes();						
@@ -66,6 +71,10 @@ function App() {
 					//retrieve playing state
 					setPlaying(playing=>{
 						return playing;
+					})
+					//retrieve playing state
+					setUsePostProcess(usePostProcess=>{
+						return usePostProcess;
 					})
 				}, 50);
 			}
@@ -129,8 +138,6 @@ function App() {
 						}
 					}
 
-					
-
 					let {midi: generatedMidiFile, slicesBeforeGenerated } = await model.generateNext();
 					let timeOffset = slicesBeforeGenerated * recorder.timeSlice;
 					let generatedNotes = player.notesFromMidiFile(generatedMidiFile, timeOffset);					
@@ -189,15 +196,16 @@ function App() {
 	return (
 		<div className="App">
 			<div style={{position: 'absolute', top: 10, right: 20, zIndex:'1', color: 'tomato'}}>{recorder.windowLength - recorder.slices.length}</div>
-			<div class = "overlay" id="count3" style={{visibility:'hidden'}}>3</div>
-			<div class = "overlay" id="count2" style={{visibility:'hidden'}}>2</div>
-			<div class = "overlay" id="count1" style={{visibility:'hidden'}}>1</div>
+			<div class = "overlay" id="count3" style={{visibility:'hidden'}}>Record in 3</div>
+			<div class = "overlay" id="count2" style={{visibility:'hidden'}}>Record in 2</div>
+			<div class = "overlay" id="count1" style={{visibility:'hidden'}}>Record in 1</div>
 			<div class = "overlay" id="screenRatioAlert" style={{visibility:'hidden'}}>Your screen ratio is not suitable for the application, please enable screen rotation, rotate to horizontal and reload the page. Thank you!</div>
 			<div class = "overlay" id="buffering" style={{visibility:'hidden', fontSize:"5vw", display:"block"}}><br></br><br></br><p>Buffering...</p><p style={{fontSize:"1vw"}}>You can pause and wait for a short while or rewind back to the beginning, so sorry for this :)</p></div>
 			<div className="App-header">
 				<div style={{ width: "20%", textTransform: "uppercase", fontSize: "2vw"}}>jazz generation project </div>
 				<PlayBar
 					onClickPlayPause={async() =>{
+						console.log(usePostProcess);
 						if(playing==false){
 							if(notes.length == 0) {
 								let midiFile = await player.midiFileFromUrl('/ABeautifulFriendship.mid');
@@ -260,6 +268,11 @@ function App() {
 						Tone.Transport.seconds = 0
 						setPlaying(false);
 					}}
+					onClickChangePostProcess= {() =>{
+						setUsePostProcess(!usePostProcess);
+						model.changeUsePostProcess(!usePostProcess);
+					}}
+					usePostProcessState = {usePostProcess}
 					recordingState = {recording}
 					playingState = {playing}
 				/>
