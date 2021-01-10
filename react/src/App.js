@@ -63,8 +63,8 @@ function App() {
 					//retrieve recording state
 					setRecording(recording=>{
 						if(recording) {
-							let notes = recorder.getVisualNotes();						
-							setNotes(notes);
+							let notess = recorder.getVisualNotes();						
+							setNotes(notess);
 						}
 						return recording;
 					})
@@ -118,15 +118,16 @@ function App() {
 
 
 				var buffer_pause = false;
-
+				var total_notes = notes.length;
 				for(let i=0; i<999; i++) {
-					if(Tone.Transport.seconds > (i*5+2.5)){
+					console.log(Tone.Transport.seconds, model.fullTokenSequence.length*(0.12));
+					if(Tone.Transport.seconds > (model.fullTokenSequence.length-41)*(0.12)){
 						if(Tone.Transport.state=="started"){
 							buffer_pause = true;
 							document.getElementById("buffering").style.visibility = 'visible';
 							player.pausePlayback()
 						}
-					}else if(Tone.Transport.seconds < (i*5 - 10)){
+					}else if(Tone.Transport.seconds < (model.fullTokenSequence.length+41*3)*(0.12)){
 						if(Tone.Transport.state!="started" && buffer_pause){
 							buffer_pause = false;
 							if(Tone.context.state == 'suspended') {
@@ -142,7 +143,7 @@ function App() {
 					let timeOffset = slicesBeforeGenerated * recorder.timeSlice;
 					let generatedNotes = player.notesFromMidiFile(generatedMidiFile, timeOffset);					
 					player.addNotes(generatedNotes);
-					setNotes(notes=>[...notes, ...generatedNotes]);									
+					setNotes(notes=>[...notes, ...generatedNotes]);			
 					let shouldStop = false;
 					setIsGenerating(isGenerating => {
 						shouldStop = !isGenerating;
@@ -158,6 +159,7 @@ function App() {
 			};
 		})()
 	}, []); //on component mount
+
 
 	const MAX_MIDI = 100
 	const NOTE_HEIGHT = 4
@@ -208,6 +210,7 @@ function App() {
 						console.log(usePostProcess);
 						if(playing==false){
 							if(notes.length == 0) {
+
 								let midiFile = await player.midiFileFromUrl('/ABeautifulFriendship.mid');
 								let notes = player.notesFromMidiFile(midiFile);
 								player.addNotes(notes);
@@ -346,7 +349,7 @@ function App() {
 						<li class="white b"></li>
 						<li class="black as"></li>
 						<li class="white a"></li>
-						<li class="black gs" id="G#3" onPointerUp={(e) => onChordUp(SampleChords[10])} onPointerOut={(e) => onChordUp(SampleChords[10])}  onPointerCancOut={(e) => onChordUp(SampleChords[10])} onPointerDown={(e) => onChordDown(SampleChords[10])}>q</li>
+						<li class="black gs" id="G#3" onPointerUp={(e) => onChordUp(SampleChords[10])} onPointerOut={(e) => onChordUp(SampleChords[10])}  onPointerDown={(e) => onChordUp(SampleChords[10])} onPointerDown={(e) => onChordDown(SampleChords[10])}>q</li>
 						<li class="white g" id="A3" onPointerUp={(e) => onChordUp(SampleChords[11])} onPointerOut={(e) => onChordUp(SampleChords[11])} onPointerDown={(e) => onChordDown(SampleChords[11])}>a</li>
 						<li class="black fs" id="A#3" onPointerUp={(e) => onChordUp(SampleChords[12])} onPointerOut={(e) => onChordUp(SampleChords[12])} onPointerDown={(e) => onChordDown(SampleChords[12])}>w</li>
 						<li class="white f" id="B3" onPointerUp={(e) => onChordUp(SampleChords[13])} onPointerOut={(e) => onChordUp(SampleChords[13])} onPointerDown={(e) => onChordDown(SampleChords[13])}>s</li>
